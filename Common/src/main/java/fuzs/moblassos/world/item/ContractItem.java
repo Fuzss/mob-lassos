@@ -2,10 +2,10 @@ package fuzs.moblassos.world.item;
 
 import fuzs.moblassos.init.ModRegistry;
 import fuzs.moblassos.network.ClientboundVillagerParticlesMessage;
-import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
-import fuzs.puzzleslib.api.network.v4.MessageSender;
-import fuzs.puzzleslib.api.network.v4.PlayerSet;
-import fuzs.puzzleslib.api.util.v1.InteractionResultHelper;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
+import fuzs.puzzleslib.common.api.network.v4.MessageSender;
+import fuzs.puzzleslib.common.api.network.v4.PlayerSet;
+import fuzs.puzzleslib.common.api.util.v1.InteractionResultHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -20,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class ContractItem extends Item {
 
@@ -31,8 +32,8 @@ public class ContractItem extends Item {
         return Component.translatable(this.getDescriptionId() + ".desc").withStyle(ChatFormatting.GRAY);
     }
 
-    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand hand, Entity entity) {
-        ItemStack itemInHand = player.getItemInHand(hand);
+    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {
+        ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.is(ModRegistry.CONTRACT_ITEM.value()) && entity instanceof AbstractVillager abstractVillager
                 && abstractVillager.isAlive()) {
             if (canAcceptContract(abstractVillager)) {
@@ -73,9 +74,9 @@ public class ContractItem extends Item {
         }
 
         Component displayName = getVillagerDisplayName(abstractVillager);
-        player.displayClientMessage(Component.translatable(
+        player.sendOverlayMessage(Component.translatable(
                 ModRegistry.CONTRACT_ITEM.value().getDescriptionId() + "." + (happyParticles ? "accept" : "reject"),
-                displayName).withStyle(happyParticles ? ChatFormatting.GREEN : ChatFormatting.RED), true);
+                displayName).withStyle(happyParticles ? ChatFormatting.GREEN : ChatFormatting.RED));
     }
 
     private static Component getVillagerDisplayName(AbstractVillager abstractVillager) {

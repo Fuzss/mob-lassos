@@ -4,8 +4,8 @@ import fuzs.moblassos.MobLassos;
 import fuzs.moblassos.init.ModRegistry;
 import fuzs.moblassos.world.item.LassoItem;
 import fuzs.moblassos.world.item.LassoType;
-import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.client.data.v2.AbstractLanguageProvider;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 
 public class ModLanguageProvider extends AbstractLanguageProvider {
 

@@ -7,7 +7,7 @@ import fuzs.moblassos.data.tags.ModEntityTypeTagProvider;
 import fuzs.moblassos.data.tags.ModItemTagProvider;
 import fuzs.moblassos.init.ModRegistry;
 import fuzs.moblassos.neoforge.init.NeoForgeModRegistry;
-import fuzs.puzzleslib.api.core.v1.ModConstructor;
+import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
 import net.neoforged.fml.common.Mod;
 

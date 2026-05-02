@@ -1,9 +1,10 @@
 {
+    "minecraft": "26.1.2",
     "mod": {
         "id": "moblassos",
         "group": "fuzs.moblassos",
         "name": "Mob Lassos",
-        "version": "21.11.0",
+        "version": "26.1.0",
         "authors": [
             "Fuzs"
         ],
@@ -36,13 +37,13 @@
     ],
     "links": [
         {
-            "name": "github",
-            "slug": "moblassos"
-        },
-        {
             "name": "curseforge",
             "slug": "mob-lassos",
             "id": "852670"
+        },
+        {
+            "name": "github",
+            "slug": "mob-lassos"
         },
         {
             "name": "modrinth",

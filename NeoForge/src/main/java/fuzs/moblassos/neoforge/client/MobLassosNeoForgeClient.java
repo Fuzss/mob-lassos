@@ -5,7 +5,7 @@ import fuzs.moblassos.client.MobLassosClient;
 import fuzs.moblassos.data.client.ModLanguageProvider;
 import fuzs.moblassos.data.client.ModModelProvider;
 import fuzs.moblassos.neoforge.data.client.ModSoundDefinitionsProvider;
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.Mod;

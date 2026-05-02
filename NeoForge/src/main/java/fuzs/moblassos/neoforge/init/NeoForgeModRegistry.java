@@ -4,7 +4,7 @@ import fuzs.moblassos.MobLassos;
 import fuzs.moblassos.init.ModRegistry;
 import fuzs.moblassos.neoforge.world.item.NeoForgeLassoItem;
 import fuzs.moblassos.world.item.LassoType;
-import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
+import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 

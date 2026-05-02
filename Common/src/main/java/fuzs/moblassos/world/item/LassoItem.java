@@ -3,10 +3,10 @@ package fuzs.moblassos.world.item;
 import fuzs.moblassos.MobLassos;
 import fuzs.moblassos.config.ServerConfig;
 import fuzs.moblassos.init.ModRegistry;
-import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
-import fuzs.puzzleslib.api.item.v2.EnchantingHelper;
-import fuzs.puzzleslib.api.util.v1.InteractionResultHelper;
-import fuzs.puzzleslib.impl.core.proxy.ProxyImpl;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
+import fuzs.puzzleslib.common.api.item.v2.EnchantingHelper;
+import fuzs.puzzleslib.common.api.util.v1.CommonHelper;
+import fuzs.puzzleslib.common.api.util.v1.InteractionResultHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -30,6 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 public class LassoItem extends Item {
@@ -43,7 +44,7 @@ public class LassoItem extends Item {
         this.type = type;
     }
 
-    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity) {
+    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {
         // we do not override the item method, this is called by an event/callback instead to allow overriding interaction implemented on the entity which runs first and might prevent all this
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.getItem() instanceof LassoItem item && entity instanceof Mob mob && entity.isAlive()) {
@@ -197,10 +198,10 @@ public class LassoItem extends Item {
 
     @Override
     public int getBarWidth(ItemStack itemStack) {
-        int maxHoldingTime = this.getMaxHoldingTime(ProxyImpl.get().getClientLevel(), itemStack);
+        int maxHoldingTime = this.getMaxHoldingTime(CommonHelper.getClientLevel(), itemStack);
         long currentHoldingTime = 0;
         if (itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value())) {
-            currentHoldingTime = this.getCurrentHoldingTime(ProxyImpl.get().getClientLevel(),
+            currentHoldingTime = this.getCurrentHoldingTime(CommonHelper.getClientLevel(),
                     itemStack,
                     ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value(),
                     maxHoldingTime);
@@ -208,7 +209,7 @@ public class LassoItem extends Item {
 
         if (itemStack.has(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value())) {
             maxHoldingTime /= 5;
-            currentHoldingTime = maxHoldingTime - this.getCurrentHoldingTime(ProxyImpl.get().getClientLevel(),
+            currentHoldingTime = maxHoldingTime - this.getCurrentHoldingTime(CommonHelper.getClientLevel(),
                     itemStack,
                     ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value(),
                     maxHoldingTime);

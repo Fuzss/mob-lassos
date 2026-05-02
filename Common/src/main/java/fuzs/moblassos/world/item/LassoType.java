@@ -103,15 +103,15 @@ public enum LassoType implements StringRepresentable {
 
     public boolean canPlayerPickUp(Player player, Mob mob) {
         return this.isValidMob(player, mob).ifLeft((MutableComponent component) -> {
-            player.displayClientMessage(component.withStyle(ChatFormatting.RED), true);
+            player.sendOverlayMessage(component.withStyle(ChatFormatting.RED));
         }).right().isPresent();
     }
 
     protected Either<MutableComponent, Unit> isValidMob(Player player, Mob mob) {
-        if (!mob.getType().is(ModRegistry.BOSSES_ENTITY_TYPE_TAG)) {
+        if (!mob.is(ModRegistry.BOSSES_ENTITY_TYPE_TAG)) {
             if (!(mob instanceof OwnableEntity ownableEntity) || ownableEntity.getOwner() == null
                     || ownableEntity.getOwner() == player) {
-                if (!mob.getType().is(this.getEntityTypeTagKey()) && this.filter.test(mob)) {
+                if (!mob.is(this.getEntityTypeTagKey()) && this.filter.test(mob)) {
                     return Either.right(Unit.INSTANCE);
                 }
             }
