@@ -1,11 +1,10 @@
-package fuzs.moblassos.world.item;
+package fuzs.moblassos.common.world.item;
 
-import fuzs.moblassos.init.ModRegistry;
-import fuzs.moblassos.network.ClientboundVillagerParticlesMessage;
+import fuzs.moblassos.common.init.ModRegistry;
+import fuzs.moblassos.common.network.ClientboundVillagerParticlesMessage;
 import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.common.api.network.v4.MessageSender;
 import fuzs.puzzleslib.common.api.network.v4.PlayerSet;
-import fuzs.puzzleslib.common.api.util.v1.InteractionResultHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -61,7 +60,7 @@ public class ContractItem extends Item {
             return EventResultHolder.pass();
         }
 
-        return EventResultHolder.interrupt(InteractionResultHelper.sidedSuccess(level.isClientSide()));
+        return EventResultHolder.interrupt(InteractionResult.SUCCESS);
     }
 
     private static void onUseContract(Level level, Player player, AbstractVillager abstractVillager, ItemStack itemInHand, boolean happyParticles) {

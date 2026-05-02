@@ -1,6 +1,6 @@
-package fuzs.moblassos.data.tags;
+package fuzs.moblassos.common.data.tags;
 
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
 import net.minecraft.core.HolderLookup;

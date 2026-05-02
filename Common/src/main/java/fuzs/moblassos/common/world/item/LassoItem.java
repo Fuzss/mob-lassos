@@ -1,19 +1,21 @@
-package fuzs.moblassos.world.item;
+package fuzs.moblassos.common.world.item;
 
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.config.ServerConfig;
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.config.ServerConfig;
+import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.common.api.item.v2.EnchantingHelper;
 import fuzs.puzzleslib.common.api.util.v1.CommonHelper;
-import fuzs.puzzleslib.common.api.util.v1.InteractionResultHelper;
+import fuzs.puzzleslib.common.api.util.v1.ValueSerializationHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ARGB;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -30,12 +32,26 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class LassoItem extends Item {
     public static final String KEY_REMAINING_TIME_IN_SECONDS = "item.moblassos.lasso.remaining";
     private static final int BAR_COLOR = ARGB.colorFromFloat(1.0F, 0.4F, 0.4F, 1.0F);
+    private static final Set<String> PRESERVED_ENTITY_TAGS = Set.of("drop_chances",
+            "equipment",
+            "CanPickUpLoot",
+            "LeftHanded");
+    private static final List<String> IGNORED_ENTITY_TAGS = Util.make(() -> {
+        List<String> ignoredTags = new ArrayList<>(BeehiveBlockEntity.IGNORED_BEE_TAGS);
+        ignoredTags.removeAll(PRESERVED_ENTITY_TAGS);
+        return List.copyOf(ignoredTags);
+    });
 
     private final LassoType type;
 
@@ -59,10 +75,10 @@ public class LassoItem extends Item {
                 }
             }
 
-            return EventResultHolder.interrupt(InteractionResultHelper.sidedSuccess(player.level().isClientSide()));
+            return EventResultHolder.interrupt(InteractionResult.SUCCESS);
+        } else {
+            return EventResultHolder.pass();
         }
-
-        return EventResultHolder.pass();
     }
 
     /**
@@ -72,7 +88,7 @@ public class LassoItem extends Item {
         mob.stopRiding();
         mob.ejectPassengers();
         mob.dropLeash();
-        TypedEntityData<EntityType<?>> entityData = BeehiveBlockEntity.Occupant.of(mob).entityData();
+        TypedEntityData<EntityType<?>> entityData = entityDataOf(mob);
         itemStack.set(DataComponents.ENTITY_DATA, entityData);
         if (mob.hasCustomName()) {
             itemStack.set(DataComponents.CUSTOM_NAME, mob.getCustomName());
@@ -80,6 +96,19 @@ public class LassoItem extends Item {
 
         player.playSound(ModRegistry.LASSO_PICK_UP_SOUND_EVENT.value());
         mob.discard();
+    }
+
+    /**
+     * @see BeehiveBlockEntity.Occupant#of(Entity)
+     */
+    public static TypedEntityData<EntityType<?>> entityDataOf(Entity entity) {
+        CompoundTag entityTag = ValueSerializationHelper.save(entity.problemPath(),
+                entity.registryAccess(),
+                (ValueOutput output) -> {
+                    entity.save(output);
+                    IGNORED_ENTITY_TAGS.forEach(output::discard);
+                });
+        return TypedEntityData.of(entity.getType(), entityTag);
     }
 
     public boolean hasOccupant(ItemStack itemStack) {
@@ -240,6 +269,7 @@ public class LassoItem extends Item {
         if (enchantmentLevel > 0) {
             time += (int) (time * enchantmentLevel * MobLassos.CONFIG.get(ServerConfig.class).holdingMultiplier);
         }
+
         return time;
     }
 

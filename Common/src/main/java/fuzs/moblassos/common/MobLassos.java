@@ -1,10 +1,10 @@
-package fuzs.moblassos;
+package fuzs.moblassos.common;
 
-import fuzs.moblassos.config.ServerConfig;
-import fuzs.moblassos.init.ModRegistry;
-import fuzs.moblassos.network.ClientboundVillagerParticlesMessage;
-import fuzs.moblassos.world.item.ContractItem;
-import fuzs.moblassos.world.item.LassoItem;
+import fuzs.moblassos.common.config.ServerConfig;
+import fuzs.moblassos.common.init.ModRegistry;
+import fuzs.moblassos.common.network.ClientboundVillagerParticlesMessage;
+import fuzs.moblassos.common.world.item.ContractItem;
+import fuzs.moblassos.common.world.item.LassoItem;
 import fuzs.puzzleslib.common.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.context.PayloadTypesContext;

@@ -1,6 +1,6 @@
-package fuzs.moblassos.data.tags;
+package fuzs.moblassos.common.data.tags;
 
-import fuzs.moblassos.world.item.LassoType;
+import fuzs.moblassos.common.world.item.LassoType;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
 import net.minecraft.core.HolderLookup;

@@ -1,4 +1,4 @@
-package fuzs.moblassos.network;
+package fuzs.moblassos.common.network;
 
 import fuzs.puzzleslib.common.api.network.v4.message.MessageListener;
 import fuzs.puzzleslib.common.api.network.v4.message.play.ClientboundPlayMessage;

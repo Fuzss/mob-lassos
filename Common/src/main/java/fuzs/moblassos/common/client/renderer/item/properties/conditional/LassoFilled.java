@@ -1,7 +1,7 @@
-package fuzs.moblassos.client.renderer.item.properties.conditional;
+package fuzs.moblassos.common.client.renderer.item.properties.conditional;
 
 import com.mojang.serialization.MapCodec;
-import fuzs.moblassos.world.item.LassoItem;
+import fuzs.moblassos.common.world.item.LassoItem;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.world.entity.LivingEntity;

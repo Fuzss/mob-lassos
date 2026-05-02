@@ -1,9 +1,9 @@
-package fuzs.moblassos.data.client;
+package fuzs.moblassos.common.data.client;
 
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.client.color.item.Lasso;
-import fuzs.moblassos.client.renderer.item.properties.conditional.LassoFilled;
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.client.color.item.Lasso;
+import fuzs.moblassos.common.client.renderer.item.properties.conditional.LassoFilled;
+import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.client.data.v2.AbstractModelProvider;
 import fuzs.puzzleslib.common.api.client.data.v2.models.ModelLocationHelper;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;

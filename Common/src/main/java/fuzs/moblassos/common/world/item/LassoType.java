@@ -1,10 +1,10 @@
-package fuzs.moblassos.world.item;
+package fuzs.moblassos.common.world.item;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Unit;
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.config.ServerConfig;
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.config.ServerConfig;
+import fuzs.moblassos.common.init.ModRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

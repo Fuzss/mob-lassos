@@ -1,6 +1,6 @@
 package fuzs.moblassos.fabric;
 
-import fuzs.moblassos.MobLassos;
+import fuzs.moblassos.common.MobLassos;
 import fuzs.moblassos.fabric.init.FabricModRegistry;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import net.fabricmc.api.ModInitializer;

@@ -10,3 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update to Minecraft 26.1.x
+
+### Fixed
+
+- Fix entity equipment failing to save when the entity is picked up in a lasso

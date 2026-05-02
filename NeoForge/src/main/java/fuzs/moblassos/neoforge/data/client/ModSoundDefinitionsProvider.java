@@ -1,6 +1,6 @@
 package fuzs.moblassos.neoforge.data.client;
 
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.neoforge.api.client.data.v2.AbstractSoundProvider;
 import net.minecraft.sounds.SoundEvents;

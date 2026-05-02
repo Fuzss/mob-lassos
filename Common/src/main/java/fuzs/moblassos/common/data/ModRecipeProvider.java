@@ -1,6 +1,6 @@
-package fuzs.moblassos.data;
+package fuzs.moblassos.common.data;
 
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.data.v2.AbstractRecipeProvider;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import net.minecraft.data.recipes.RecipeCategory;

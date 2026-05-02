@@ -1,9 +1,9 @@
 package fuzs.moblassos.neoforge.client;
 
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.client.MobLassosClient;
-import fuzs.moblassos.data.client.ModLanguageProvider;
-import fuzs.moblassos.data.client.ModModelProvider;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.client.MobLassosClient;
+import fuzs.moblassos.common.data.client.ModLanguageProvider;
+import fuzs.moblassos.common.data.client.ModModelProvider;
 import fuzs.moblassos.neoforge.data.client.ModSoundDefinitionsProvider;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;

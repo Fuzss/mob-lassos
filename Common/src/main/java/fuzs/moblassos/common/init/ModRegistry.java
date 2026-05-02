@@ -1,8 +1,8 @@
-package fuzs.moblassos.init;
+package fuzs.moblassos.common.init;
 
 import com.mojang.serialization.Codec;
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.world.item.ContractItem;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.world.item.ContractItem;
 import fuzs.puzzleslib.common.api.attachment.v4.DataAttachmentRegistry;
 import fuzs.puzzleslib.common.api.attachment.v4.DataAttachmentType;
 import fuzs.puzzleslib.common.api.data.v2.AbstractDatapackRegistriesProvider;

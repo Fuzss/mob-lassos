@@ -1,11 +1,11 @@
 package fuzs.moblassos.neoforge;
 
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.data.ModRecipeProvider;
-import fuzs.moblassos.data.tags.ModEnchantmentTagProvider;
-import fuzs.moblassos.data.tags.ModEntityTypeTagProvider;
-import fuzs.moblassos.data.tags.ModItemTagProvider;
-import fuzs.moblassos.init.ModRegistry;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.data.ModRecipeProvider;
+import fuzs.moblassos.common.data.tags.ModEnchantmentTagProvider;
+import fuzs.moblassos.common.data.tags.ModEntityTypeTagProvider;
+import fuzs.moblassos.common.data.tags.ModItemTagProvider;
+import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.moblassos.neoforge.init.NeoForgeModRegistry;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;

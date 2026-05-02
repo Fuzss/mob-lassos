@@ -1,8 +1,8 @@
-package fuzs.moblassos.client.color.item;
+package fuzs.moblassos.common.client.color.item;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import fuzs.moblassos.world.item.LassoItem;
+import fuzs.moblassos.common.world.item.LassoItem;
 import net.minecraft.util.Util;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;

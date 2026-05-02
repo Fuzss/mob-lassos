@@ -1,4 +1,4 @@
-package fuzs.moblassos.config;
+package fuzs.moblassos.common.config;
 
 import fuzs.puzzleslib.common.api.config.v3.Config;
 import fuzs.puzzleslib.common.api.config.v3.ConfigCore;

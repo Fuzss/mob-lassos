@@ -1,7 +1,7 @@
 package fuzs.moblassos.fabric.client;
 
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.client.MobLassosClient;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.client.MobLassosClient;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import net.fabricmc.api.ClientModInitializer;
 

@@ -1,9 +1,9 @@
 package fuzs.moblassos.fabric.init;
 
-import fuzs.moblassos.MobLassos;
+import fuzs.moblassos.common.MobLassos;
 import fuzs.moblassos.fabric.world.item.FabricLassoItem;
-import fuzs.moblassos.init.ModRegistry;
-import fuzs.moblassos.world.item.LassoType;
+import fuzs.moblassos.common.init.ModRegistry;
+import fuzs.moblassos.common.world.item.LassoType;
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;

@@ -1,12 +1,12 @@
-package fuzs.moblassos.client;
+package fuzs.moblassos.common.client;
 
-import fuzs.moblassos.MobLassos;
-import fuzs.moblassos.client.color.item.Lasso;
-import fuzs.moblassos.client.renderer.item.properties.conditional.LassoFilled;
-import fuzs.moblassos.config.ServerConfig;
-import fuzs.moblassos.init.ModRegistry;
-import fuzs.moblassos.world.item.ContractItem;
-import fuzs.moblassos.world.item.LassoItem;
+import fuzs.moblassos.common.MobLassos;
+import fuzs.moblassos.common.client.color.item.Lasso;
+import fuzs.moblassos.common.client.renderer.item.properties.conditional.LassoFilled;
+import fuzs.moblassos.common.config.ServerConfig;
+import fuzs.moblassos.common.init.ModRegistry;
+import fuzs.moblassos.common.world.item.ContractItem;
+import fuzs.moblassos.common.world.item.LassoItem;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.common.api.client.core.v1.context.ItemModelsContext;
 import fuzs.puzzleslib.common.api.client.gui.v2.tooltip.ItemTooltipRegistry;

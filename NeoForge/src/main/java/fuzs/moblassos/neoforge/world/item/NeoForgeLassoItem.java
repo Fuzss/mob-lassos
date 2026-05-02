@@ -1,7 +1,7 @@
 package fuzs.moblassos.neoforge.world.item;
 
-import fuzs.moblassos.world.item.LassoItem;
-import fuzs.moblassos.world.item.LassoType;
+import fuzs.moblassos.common.world.item.LassoItem;
+import fuzs.moblassos.common.world.item.LassoType;
 import net.minecraft.world.item.ItemStack;
 
 public class NeoForgeLassoItem extends LassoItem {
