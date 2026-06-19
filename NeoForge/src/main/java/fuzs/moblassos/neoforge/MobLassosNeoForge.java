@@ -2,9 +2,9 @@ package fuzs.moblassos.neoforge;
 
 import fuzs.moblassos.common.MobLassos;
 import fuzs.moblassos.common.data.ModRecipeProvider;
-import fuzs.moblassos.common.data.tags.ModEnchantmentTagProvider;
-import fuzs.moblassos.common.data.tags.ModEntityTypeTagProvider;
-import fuzs.moblassos.common.data.tags.ModItemTagProvider;
+import fuzs.moblassos.common.data.tags.ModEnchantmentTagsProvider;
+import fuzs.moblassos.common.data.tags.ModEntityTypeTagsProvider;
+import fuzs.moblassos.common.data.tags.ModItemTagsProvider;
 import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.moblassos.neoforge.init.NeoForgeModRegistry;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
@@ -19,9 +19,9 @@ public class MobLassosNeoForge {
         ModConstructor.construct(MobLassos.MOD_ID, MobLassos::new);
         DataProviderHelper.registerDataProviders(MobLassos.MOD_ID,
                 ModRegistry.REGISTRY_SET_BUILDER,
-                ModEntityTypeTagProvider::new,
-                ModItemTagProvider::new,
-                ModEnchantmentTagProvider::new,
+                ModEntityTypeTagsProvider::new,
+                ModItemTagsProvider::new,
+                ModEnchantmentTagsProvider::new,
                 ModRecipeProvider::new);
     }
 }
