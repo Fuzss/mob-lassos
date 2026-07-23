@@ -1,18 +1,14 @@
 package fuzs.moblassos.common;
 
 import fuzs.moblassos.common.config.ServerConfig;
-import fuzs.moblassos.common.data.tags.ModEntityTypeTagsProvider;
 import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.moblassos.common.network.ClientboundVillagerParticlesMessage;
 import fuzs.moblassos.common.world.item.ContractItem;
 import fuzs.moblassos.common.world.item.LassoItem;
 import fuzs.puzzleslib.common.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.common.api.core.v1.context.PackRepositorySourcesContext;
 import fuzs.puzzleslib.common.api.core.v1.context.PayloadTypesContext;
 import fuzs.puzzleslib.common.api.event.v1.entity.player.PlayerInteractEvents;
-import fuzs.puzzleslib.common.api.resources.v1.DynamicPackResources;
-import fuzs.puzzleslib.common.api.resources.v1.PackResourcesHelper;
 import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,13 +39,6 @@ public class MobLassos implements ModConstructor {
     public void onRegisterPayloadTypes(PayloadTypesContext context) {
         context.playToClient(ClientboundVillagerParticlesMessage.class,
                 ClientboundVillagerParticlesMessage.STREAM_CODEC);
-    }
-
-    @Override
-    public void onAddDataPackFinders(PackRepositorySourcesContext context) {
-        context.registerRepositorySource(PackResourcesHelper.buildServerPack(id("entities"),
-                DynamicPackResources.create(ModEntityTypeTagsProvider::new),
-                true));
     }
 
     public static Identifier id(String path) {
