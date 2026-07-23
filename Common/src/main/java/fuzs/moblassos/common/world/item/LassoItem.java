@@ -74,8 +74,8 @@ public class LassoItem extends Item {
             if (level instanceof ServerLevel
                     && !itemInHand.has(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value())) {
                 if (!item.hasOccupant(itemInHand) && item.type.canPlayerPickUp(player, mob)) {
-                    item.storeOccupant(itemInHand, mob, player);
-                    if (item.type.hasMaxHoldingTime()) {
+                    item.storeOccupant(itemInHand, mob);
+                    if (item.hasMaxHoldingTime(player)) {
                         itemInHand.set(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value(),
                                 level.getGameTime());
                     }
@@ -91,7 +91,7 @@ public class LassoItem extends Item {
     /**
      * @see BeehiveBlockEntity#addOccupant(Bee)
      */
-    public void storeOccupant(ItemStack itemStack, Mob mob, Player player) {
+    public void storeOccupant(ItemStack itemStack, Mob mob) {
         mob.stopRiding();
         mob.ejectPassengers();
         mob.dropLeash();
@@ -101,7 +101,7 @@ public class LassoItem extends Item {
             itemStack.set(DataComponents.CUSTOM_NAME, mob.getCustomName());
         }
 
-        player.playSound(ModRegistry.LASSO_PICK_UP_SOUND_EVENT.value());
+        mob.playSound(ModRegistry.LASSO_PICK_UP_SOUND_EVENT.value());
         mob.discard();
     }
 
@@ -143,10 +143,11 @@ public class LassoItem extends Item {
         ItemStack itemInHand = context.getItemInHand();
         if (this.hasOccupant(itemInHand)) {
             if (context.getLevel() instanceof ServerLevel serverLevel) {
+                Player player = context.getPlayer();
                 BlockPos blockPos = this.getReleasePosition(context);
-                this.releaseContents(context.getPlayer(), serverLevel, itemInHand, blockPos);
-                this.tryConvertPickUpTime(serverLevel, itemInHand);
-                context.getPlayer().awardStat(Stats.ITEM_USED.get(this));
+                this.releaseContents(player, serverLevel, itemInHand, blockPos);
+                this.tryConvertPickUpTime(serverLevel, itemInHand, player);
+                player.awardStat(Stats.ITEM_USED.get(this));
             }
 
             return InteractionResult.SUCCESS;
@@ -190,7 +191,7 @@ public class LassoItem extends Item {
                     hitResult.getDirection(),
                     itemInHand)) {
                 this.releaseContents(player, serverLevel, itemInHand, blockPos);
-                this.tryConvertPickUpTime(serverLevel, itemInHand);
+                this.tryConvertPickUpTime(serverLevel, itemInHand, player);
                 player.awardStat(Stats.ITEM_USED.get(this));
                 return InteractionResult.SUCCESS;
             } else {
@@ -212,8 +213,8 @@ public class LassoItem extends Item {
                     false);
             if (entity != null) {
                 serverLevel.addFreshEntity(entity);
-                entity.playSound(ModRegistry.LASSO_RELEASE_SOUND_EVENT.value());
                 serverLevel.gameEvent(carrierEntity, GameEvent.ENTITY_PLACE, blockPos);
+                entity.playSound(ModRegistry.LASSO_RELEASE_SOUND_EVENT.value());
             }
         }
 
@@ -221,15 +222,22 @@ public class LassoItem extends Item {
         itemStack.remove(DataComponents.CUSTOM_NAME);
     }
 
-    private void tryConvertPickUpTime(ServerLevel serverLevel, ItemStack itemStack) {
+    private void tryConvertPickUpTime(ServerLevel serverLevel, ItemStack itemStack, Entity entity) {
         if (itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value())) {
             long pickUpTime = itemStack.get(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value());
             itemStack.remove(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value());
-            long currentHoldingTime = serverLevel.getGameTime() - pickUpTime;
-            long releaseTime = serverLevel.getGameTime()
-                    + Math.min(0, currentHoldingTime - this.getMaxHoldingTime(serverLevel, itemStack)) / 5;
-            itemStack.set(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value(), releaseTime);
+            if (this.hasMaxHoldingTime(entity)) {
+                long currentHoldingTime = serverLevel.getGameTime() - pickUpTime;
+                long releaseTime = serverLevel.getGameTime()
+                        + Math.min(0, currentHoldingTime - this.getMaxHoldingTime(serverLevel, itemStack)) / 5;
+                itemStack.set(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value(), releaseTime);
+            }
         }
+    }
+
+    private boolean hasMaxHoldingTime(Entity entity) {
+        return this.type.hasMaxHoldingTime() && (!(entity instanceof Player player)
+                || !player.getAbilities().instabuild);
     }
 
     @Override
@@ -241,37 +249,34 @@ public class LassoItem extends Item {
             }
         }
 
-        if (this.type.hasMaxHoldingTime()) {
-            if (itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value())) {
-                int maxHoldingTime = this.getMaxHoldingTime(serverLevel, itemStack);
-                long currentHoldingTime = this.getCurrentHoldingTime(serverLevel,
-                        itemStack,
-                        ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value(),
-                        maxHoldingTime);
-                if (currentHoldingTime >= maxHoldingTime) {
-                    this.releaseContents(entity, serverLevel, itemStack, entity.blockPosition());
-                    this.tryConvertPickUpTime(serverLevel, itemStack);
-                }
+        if (itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value())) {
+            int maxHoldingTime = this.getMaxHoldingTime(serverLevel, itemStack);
+            long currentHoldingTime = this.getCurrentHoldingTime(serverLevel,
+                    itemStack,
+                    ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value(),
+                    maxHoldingTime);
+            if (currentHoldingTime >= maxHoldingTime) {
+                this.releaseContents(entity, serverLevel, itemStack, entity.blockPosition());
+                this.tryConvertPickUpTime(serverLevel, itemStack, entity);
             }
+        }
 
-            if (itemStack.has(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value())) {
-                int maxHoldingTime = this.getMaxHoldingTime(serverLevel, itemStack) / 5;
-                long currentHoldingTime = this.getCurrentHoldingTime(serverLevel,
-                        itemStack,
-                        ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value(),
-                        maxHoldingTime);
-                if (currentHoldingTime >= maxHoldingTime) {
-                    itemStack.remove(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value());
-                }
+        if (itemStack.has(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value())) {
+            int maxHoldingTime = this.getMaxHoldingTime(serverLevel, itemStack) / 5;
+            long currentHoldingTime = this.getCurrentHoldingTime(serverLevel,
+                    itemStack,
+                    ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value(),
+                    maxHoldingTime);
+            if (currentHoldingTime >= maxHoldingTime) {
+                itemStack.remove(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value());
             }
         }
     }
 
     @Override
     public boolean isBarVisible(ItemStack itemStack) {
-        return this.type.hasMaxHoldingTime() && (
-                itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value())
-                        || itemStack.has(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value()));
+        return itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value())
+                || itemStack.has(ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value());
     }
 
     @Override
