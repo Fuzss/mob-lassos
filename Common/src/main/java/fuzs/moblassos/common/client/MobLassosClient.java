@@ -34,9 +34,9 @@ public class MobLassosClient implements ClientModConstructor {
                                 item.getStoredEntityType(itemStack).getDescription());
                         tooltipLineConsumer.accept(component.withStyle(ChatFormatting.BLUE));
                     } else {
-                        tooltipLineConsumer.accept(Component.translatable(item.getDescriptionId() + ".desc")
-                                .withStyle(ChatFormatting.GOLD));
+                        tooltipLineConsumer.accept(item.getDescriptionComponent());
                     }
+
                     if (player != null && tooltipFlag.isAdvanced() && MobLassos.CONFIG.getHolder(ServerConfig.class)
                             .isAvailable()) {
                         boolean hasPickUpTime = itemStack.has(ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value());
@@ -50,6 +50,7 @@ public class MobLassosClient implements ClientModConstructor {
                                         ModRegistry.ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE.value(),
                                         maxHoldingTime);
                             }
+
                             if (hasReleaseTime) {
                                 maxHoldingTime /= 5;
                                 currentHoldingTime = item.getCurrentHoldingTime(player.level(),
@@ -57,6 +58,7 @@ public class MobLassosClient implements ClientModConstructor {
                                         ModRegistry.ENTITY_RELEASE_TIME_DATA_COMPONENT_TYPE.value(),
                                         maxHoldingTime);
                             }
+
                             tooltipLineConsumer.accept(Component.translatable(LassoItem.KEY_REMAINING_TIME_IN_SECONDS,
                                     (maxHoldingTime - currentHoldingTime) / 20).withStyle(ChatFormatting.GRAY));
                         }

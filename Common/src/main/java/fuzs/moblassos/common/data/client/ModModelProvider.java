@@ -24,7 +24,7 @@ public class ModModelProvider extends AbstractModelProvider {
     public void addItemModels(ItemModelGenerators itemModelGenerators) {
         itemModelGenerators.generateFlatItem(ModRegistry.CONTRACT_ITEM.value(), ModelTemplates.FLAT_ITEM);
         this.generateLasso(ModRegistry.GOLDEN_LASSO_ITEM.value(), itemModelGenerators);
-        this.generateLasso(ModRegistry.AQUA_LASSO_ITEM.value(), itemModelGenerators);
+        this.generateLasso(ModRegistry.AQUATIC_LASSO_ITEM.value(), itemModelGenerators);
         this.generateLasso(ModRegistry.DIAMOND_LASSO_ITEM.value(), itemModelGenerators);
         this.generateLasso(ModRegistry.EMERALD_LASSO_ITEM.value(), itemModelGenerators);
         this.generateLasso(ModRegistry.HOSTILE_LASSO_ITEM.value(), itemModelGenerators);

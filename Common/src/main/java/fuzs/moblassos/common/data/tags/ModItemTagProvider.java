@@ -1,6 +1,7 @@
 package fuzs.moblassos.common.data.tags;
 
 import fuzs.moblassos.common.init.ModRegistry;
+import fuzs.moblassos.common.init.ModTags;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
 import net.minecraft.core.HolderLookup;
@@ -15,13 +16,13 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
 
     @Override
     public void addTags(HolderLookup.Provider provider) {
-        this.tag(ModRegistry.LASSOS_ITEM_TAG)
-                .add(ModRegistry.GOLDEN_LASSO_ITEM.value(),
-                        ModRegistry.AQUA_LASSO_ITEM.value(),
-                        ModRegistry.DIAMOND_LASSO_ITEM.value(),
-                        ModRegistry.EMERALD_LASSO_ITEM.value(),
-                        ModRegistry.HOSTILE_LASSO_ITEM.value(),
-                        ModRegistry.CREATIVE_LASSO_ITEM.value());
-        this.tag(ModRegistry.LASSO_ENCHANTABLE_ITEM_TAG).addTag(ModRegistry.LASSOS_ITEM_TAG);
+        this.tag(ModTags.LASSOS_ITEM_TAG)
+                .add(ModRegistry.GOLDEN_LASSO_ITEM,
+                        ModRegistry.AQUATIC_LASSO_ITEM,
+                        ModRegistry.DIAMOND_LASSO_ITEM,
+                        ModRegistry.EMERALD_LASSO_ITEM,
+                        ModRegistry.HOSTILE_LASSO_ITEM,
+                        ModRegistry.CREATIVE_LASSO_ITEM);
+        this.tag(ModTags.LASSO_ENCHANTABLE_ITEM_TAG).addTag(ModTags.LASSOS_ITEM_TAG);
     }
 }

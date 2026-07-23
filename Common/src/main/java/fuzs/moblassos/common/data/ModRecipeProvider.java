@@ -27,7 +27,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .pattern("X#X")
                 .unlockedBy(getHasName(Items.ENDER_PEARL), this.has(Items.ENDER_PEARL))
                 .save(recipeOutput);
-        ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.TOOLS, ModRegistry.AQUA_LASSO_ITEM.value())
+        ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.TOOLS, ModRegistry.AQUATIC_LASSO_ITEM.value())
                 .define('#', Ingredient.of(Items.COD, Items.SALMON, Items.PUFFERFISH, Items.TROPICAL_FISH))
                 .define('X', Items.LAPIS_LAZULI)
                 .define('&', ModRegistry.GOLDEN_LASSO_ITEM.value())
@@ -40,12 +40,12 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.TOOLS, ModRegistry.DIAMOND_LASSO_ITEM.value())
                 .define('#', Items.DIAMOND)
                 .define('&', ModRegistry.GOLDEN_LASSO_ITEM.value())
-                .define('X', ModRegistry.AQUA_LASSO_ITEM.value())
+                .define('X', ModRegistry.AQUATIC_LASSO_ITEM.value())
                 .pattern(" # ")
                 .pattern("X#&")
                 .pattern(" # ")
-                .unlockedBy(getHasName(ModRegistry.AQUA_LASSO_ITEM.value()),
-                        this.has(ModRegistry.AQUA_LASSO_ITEM.value()))
+                .unlockedBy(getHasName(ModRegistry.AQUATIC_LASSO_ITEM.value()),
+                        this.has(ModRegistry.AQUATIC_LASSO_ITEM.value()))
                 .save(recipeOutput);
         ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.TOOLS, ModRegistry.EMERALD_LASSO_ITEM.value())
                 .define('#', Items.EMERALD)
