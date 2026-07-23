@@ -28,7 +28,7 @@ public class ContractItem extends Item {
     }
 
     public Component getDescriptionComponent() {
-        return Component.translatable(this.getDescriptionId() + ".desc").withStyle(ChatFormatting.GRAY);
+        return Component.translatable(this.getDescriptionId() + ".desc").withStyle(ChatFormatting.GOLD);
     }
 
     public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {

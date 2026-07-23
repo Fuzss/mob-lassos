@@ -2,8 +2,8 @@ package fuzs.moblassos.neoforge.init;
 
 import fuzs.moblassos.common.MobLassos;
 import fuzs.moblassos.common.init.ModRegistry;
-import fuzs.moblassos.neoforge.world.item.NeoForgeLassoItem;
 import fuzs.moblassos.common.world.item.LassoType;
+import fuzs.moblassos.neoforge.world.item.NeoForgeLassoItem;
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
@@ -13,8 +13,8 @@ public class NeoForgeModRegistry {
     public static final Holder.Reference<Item> GOLDEN_LASSO_ITEM = REGISTRIES.registerItem("golden_lasso",
             (Item.Properties properties) -> new NeoForgeLassoItem(properties, LassoType.GOLDEN),
             ModRegistry::lassoProperties);
-    public static final Holder.Reference<Item> AQUA_LASSO_ITEM = REGISTRIES.registerItem("aqua_lasso",
-            (Item.Properties properties) -> new NeoForgeLassoItem(properties, LassoType.AQUA),
+    public static final Holder.Reference<Item> AQUATIC_LASSO_ITEM = REGISTRIES.registerItem("aqua_lasso",
+            (Item.Properties properties) -> new NeoForgeLassoItem(properties, LassoType.AQUATIC),
             ModRegistry::lassoProperties);
     public static final Holder.Reference<Item> DIAMOND_LASSO_ITEM = REGISTRIES.registerItem("diamond_lasso",
             (Item.Properties properties) -> new NeoForgeLassoItem(properties, LassoType.DIAMOND),

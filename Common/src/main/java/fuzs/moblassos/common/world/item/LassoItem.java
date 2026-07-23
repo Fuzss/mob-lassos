@@ -7,12 +7,14 @@ import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.common.api.item.v2.EnchantingHelper;
 import fuzs.puzzleslib.common.api.util.v1.CommonHelper;
 import fuzs.puzzleslib.common.api.util.v1.ValueSerializationHelper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Util;
@@ -124,6 +126,10 @@ public class LassoItem extends Item {
         }
     }
 
+    public Component getDescriptionComponent() {
+        return Component.translatable(this.getDescriptionId() + ".desc").withStyle(ChatFormatting.GOLD);
+    }
+
     @Override
     public InteractionResult useOn(UseOnContext context) {
         if (this.hasOccupant(context.getItemInHand())) {
@@ -186,7 +192,7 @@ public class LassoItem extends Item {
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel serverLevel, Entity entity, @Nullable EquipmentSlot equipmentSlot) {
         if (this.type == LassoType.HOSTILE && this.hasOccupant(itemStack)) {
-            int hostileDamageRate = MobLassos.CONFIG.get(ServerConfig.class).hostileDamageRate;
+            int hostileDamageRate = MobLassos.CONFIG.get(ServerConfig.class).hostileLasso.hostileDamageRate;
             if (hostileDamageRate != -1 && serverLevel.getGameTime() % (hostileDamageRate * 20L) == 0) {
                 entity.hurtServer(serverLevel, serverLevel.damageSources().magic(), 1.0F);
             }

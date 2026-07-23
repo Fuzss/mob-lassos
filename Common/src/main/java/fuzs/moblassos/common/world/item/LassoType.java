@@ -2,61 +2,96 @@ package fuzs.moblassos.common.world.item;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Unit;
+import com.mojang.serialization.Codec;
 import fuzs.moblassos.common.MobLassos;
 import fuzs.moblassos.common.config.ServerConfig;
 import fuzs.moblassos.common.init.ModRegistry;
+import fuzs.puzzleslib.common.api.network.v4.codec.ExtraStreamCodecs;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.tags.TagKey;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.ambient.AmbientCreature;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.fish.WaterAnimal;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.function.IntSupplier;
-import java.util.function.Predicate;
+import java.util.Locale;
+import java.util.OptionalInt;
 
 public enum LassoType implements StringRepresentable {
-    GOLDEN("golden",
-            (Mob mob) -> mob instanceof Animal || mob instanceof AmbientCreature,
-            () -> MobLassos.CONFIG.get(ServerConfig.class).goldenLassoTime),
-    AQUA("aqua", (Mob mob) -> mob instanceof WaterAnimal, () -> MobLassos.CONFIG.get(ServerConfig.class).aquaLassoTime),
-    DIAMOND("diamond",
-            (Mob mob) -> mob instanceof Animal || mob instanceof AmbientCreature || mob instanceof WaterAnimal,
-            () -> MobLassos.CONFIG.get(ServerConfig.class).diamondLassoTime),
-    EMERALD("emerald",
-            (Mob mob) -> mob instanceof AbstractVillager,
-            () -> MobLassos.CONFIG.get(ServerConfig.class).emeraldLassoTime) {
+    GOLDEN {
         @Override
-        protected Either<MutableComponent, Unit> isValidMob(Player player, Mob mob) {
-            Either<MutableComponent, Unit> result = super.isValidMob(player, mob);
-            if (!MobLassos.CONFIG.get(ServerConfig.class).villagersRequireContract) {
+        OptionalInt getMaxHoldingTimeInSeconds() {
+            return MobLassos.CONFIG.get(ServerConfig.class).goldenLasso.getMaxHoldingTime();
+        }
+
+        @Override
+        boolean canCaptureMob(Mob mob) {
+            return mob.is(ModRegistry.CAPTURED_BY_GOLDEN_LASSO_ENTITY_TYPE_TAG);
+        }
+    },
+    AQUATIC {
+        @Override
+        OptionalInt getMaxHoldingTimeInSeconds() {
+            return MobLassos.CONFIG.get(ServerConfig.class).aquaticLasso.getMaxHoldingTime();
+        }
+
+        @Override
+        boolean canCaptureMob(Mob mob) {
+            return mob.is(ModRegistry.CAPTURED_BY_AQUATIC_LASSO_ENTITY_TYPE_TAG);
+        }
+    },
+    DIAMOND {
+        @Override
+        OptionalInt getMaxHoldingTimeInSeconds() {
+            return MobLassos.CONFIG.get(ServerConfig.class).diamondLasso.getMaxHoldingTime();
+        }
+
+        @Override
+        boolean canCaptureMob(Mob mob) {
+            return mob.is(ModRegistry.CAPTURED_BY_DIAMOND_LASSO_ENTITY_TYPE_TAG);
+        }
+    },
+    EMERALD {
+        @Override
+        OptionalInt getMaxHoldingTimeInSeconds() {
+            return MobLassos.CONFIG.get(ServerConfig.class).emeraldLasso.getMaxHoldingTime();
+        }
+
+        @Override
+        protected Either<Component, Unit> canCaptureMob(Player player, Mob mob) {
+            Either<Component, Unit> result = super.canCaptureMob(player, mob);
+            if (!MobLassos.CONFIG.get(ServerConfig.class).emeraldLasso.villagersRequireContract) {
                 return result;
             } else if (result.left().isEmpty() && !ModRegistry.VILLAGER_CONTRACT_ATTACHMENT_TYPE.has(mob)) {
-                return Either.left(Component.translatable(this.getFailureTranslationKey(), mob.getDisplayName()));
+                return Either.left(Component.translatable(MOB_LASSO_CONTRACT_KEY, mob.getDisplayName()));
             } else {
                 return result;
             }
         }
-    },
-    HOSTILE("hostile",
-            (Mob mob) -> mob instanceof Enemy,
-            () -> MobLassos.CONFIG.get(ServerConfig.class).hostileLassoTime,
-            true) {
+
         @Override
-        protected Either<MutableComponent, Unit> isValidMob(Player player, Mob mob) {
-            Either<MutableComponent, Unit> result = super.isValidMob(player, mob);
+        boolean canCaptureMob(Mob mob) {
+            return mob.is(ModRegistry.CAPTURED_BY_EMERALD_LASSO_ENTITY_TYPE_TAG);
+        }
+    },
+    HOSTILE {
+        @Override
+        OptionalInt getMaxHoldingTimeInSeconds() {
+            return MobLassos.CONFIG.get(ServerConfig.class).hostileLasso.getMaxHoldingTime();
+        }
+
+        @Override
+        protected Either<Component, Unit> canCaptureMob(Player player, Mob mob) {
+            Either<Component, Unit> result = super.canCaptureMob(player, mob);
             if (result.left().isEmpty()) {
-                double hostileMobHealth = MobLassos.CONFIG.get(ServerConfig.class).hostileMobHealth;
+                double hostileMobHealth = MobLassos.CONFIG.get(ServerConfig.class).hostileLasso.hostileMobHealth;
                 if (mob.getHealth() / mob.getMaxHealth() >= hostileMobHealth) {
-                    MutableComponent component = Component.translatable(this.getFailureTranslationKey(),
+                    MutableComponent component = Component.translatable(MOB_LASSO_HEALTH_KEY,
                             mob.getDisplayName(),
                             String.format("%.0f", hostileMobHealth * mob.getMaxHealth()),
                             String.format("%.0f", mob.getHealth()));
@@ -65,62 +100,66 @@ public enum LassoType implements StringRepresentable {
             }
             return result;
         }
+
+        @Override
+        boolean canCaptureMob(Mob mob) {
+            return mob.is(ModRegistry.CAPTURED_BY_HOSTILE_LASSO_ENTITY_TYPE_TAG);
+        }
     },
-    CREATIVE("creative", (Mob mob) -> true, () -> MobLassos.CONFIG.get(ServerConfig.class).creativeLassoTime, true);
+    CREATIVE {
+        @Override
+        OptionalInt getMaxHoldingTimeInSeconds() {
+            return OptionalInt.empty();
+        }
 
-    private final String name;
-    private final Predicate<Mob> filter;
-    private final IntSupplier holdingTime;
+        @Override
+        boolean canCaptureMob(Mob mob) {
+            return !mob.is(ModRegistry.NOT_CAPTURED_BY_CREATIVE_LASSO_ENTITY_TYPE_TAG);
+        }
+    };
 
-    LassoType(String name, Predicate<Mob> filter, IntSupplier holdingTime) {
-        this(name, filter, holdingTime, false);
-    }
-
-    LassoType(String name, Predicate<Mob> filter, IntSupplier holdingTime, boolean allowHostile) {
-        this.name = name;
-        this.filter = (Mob mob) -> {
-            return filter.test(mob) && (allowHostile || !(mob instanceof Enemy));
-        };
-        this.holdingTime = holdingTime;
-    }
+    public static final Codec<MobCategory> CODEC = StringRepresentable.fromEnum(MobCategory::values);
+    public static final StreamCodec<ByteBuf, MobCategory> STREAM_CODEC = ExtraStreamCodecs.fromEnum(MobCategory::values);
+    public static final String MOB_LASSO_FAILURE_KEY = MobLassos.id("mob_lasso")
+            .toLanguageKey(Registries.elementsDirPath(Registries.ITEM), "failure");
+    public static final String MOB_LASSO_CONTRACT_KEY = MobLassos.id("mob_lasso")
+            .toLanguageKey(Registries.elementsDirPath(Registries.ITEM), "contract");
+    public static final String MOB_LASSO_HEALTH_KEY = MobLassos.id("mob_lasso")
+            .toLanguageKey(Registries.elementsDirPath(Registries.ITEM), "health");
 
     @Override
     public String getSerializedName() {
-        return this.name;
+        return this.name().toLowerCase(Locale.ROOT);
     }
 
-    public boolean hasMaxHoldingTime() {
-        return this.holdingTime.getAsInt() != -1;
+    public final boolean hasMaxHoldingTime() {
+        return this.getMaxHoldingTimeInSeconds().isPresent();
     }
 
-    public int getMaxHoldingTime() {
-        return this.holdingTime.getAsInt() * 20;
+    public final int getMaxHoldingTime() {
+        return this.getMaxHoldingTimeInSeconds().orElse(-1) * 20;
     }
 
-    public TagKey<EntityType<?>> getEntityTypeTagKey() {
-        return ModRegistry.TAGS.registerEntityTypeTag("forbidden_in_" + this.name + "_lasso");
-    }
+    abstract OptionalInt getMaxHoldingTimeInSeconds();
 
-    public boolean canPlayerPickUp(Player player, Mob mob) {
-        return this.isValidMob(player, mob).ifLeft((MutableComponent component) -> {
-            player.sendOverlayMessage(component.withStyle(ChatFormatting.RED));
+    public final boolean canPlayerPickUp(Player player, Mob mob) {
+        return this.canCaptureMob(player, mob).ifLeft((Component component) -> {
+            player.sendOverlayMessage(component.copy().withStyle(ChatFormatting.RED));
         }).right().isPresent();
     }
 
-    protected Either<MutableComponent, Unit> isValidMob(Player player, Mob mob) {
-        if (!mob.is(ModRegistry.BOSSES_ENTITY_TYPE_TAG)) {
-            if (!(mob instanceof OwnableEntity ownableEntity) || ownableEntity.getOwner() == null
-                    || ownableEntity.getOwner() == player) {
-                if (!mob.is(this.getEntityTypeTagKey()) && this.filter.test(mob)) {
-                    return Either.right(Unit.INSTANCE);
-                }
-            }
+    Either<Component, Unit> canCaptureMob(Player player, Mob mob) {
+        if (this.canCaptureMob(mob) && this.isCorrectOwner(player, mob)) {
+            return Either.right(Unit.INSTANCE);
+        } else {
+            return Either.left(Component.translatable(MOB_LASSO_FAILURE_KEY, mob.getDisplayName()));
         }
-
-        return Either.left(Component.translatable(GOLDEN.getFailureTranslationKey(), mob.getDisplayName()));
     }
 
-    public String getFailureTranslationKey() {
-        return "item." + MobLassos.MOD_ID + ".failure." + this.name;
+    private boolean isCorrectOwner(Player player, Mob mob) {
+        return !(mob instanceof OwnableEntity ownableEntity) || ownableEntity.getOwner() == null
+                || ownableEntity.getOwner().is(player);
     }
+
+    abstract boolean canCaptureMob(Mob mob);
 }

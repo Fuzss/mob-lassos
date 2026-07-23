@@ -1,9 +1,9 @@
 package fuzs.moblassos.fabric.init;
 
 import fuzs.moblassos.common.MobLassos;
-import fuzs.moblassos.fabric.world.item.FabricLassoItem;
 import fuzs.moblassos.common.init.ModRegistry;
 import fuzs.moblassos.common.world.item.LassoType;
+import fuzs.moblassos.fabric.world.item.FabricLassoItem;
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
@@ -13,8 +13,8 @@ public class FabricModRegistry {
     public static final Holder.Reference<Item> GOLDEN_LASSO_ITEM = REGISTRIES.registerItem("golden_lasso",
             (Item.Properties properties) -> new FabricLassoItem(properties, LassoType.GOLDEN),
             ModRegistry::lassoProperties);
-    public static final Holder.Reference<Item> AQUA_LASSO_ITEM = REGISTRIES.registerItem("aqua_lasso",
-            (Item.Properties properties) -> new FabricLassoItem(properties, LassoType.AQUA),
+    public static final Holder.Reference<Item> AQUATIC_LASSO_ITEM = REGISTRIES.registerItem("aqua_lasso",
+            (Item.Properties properties) -> new FabricLassoItem(properties, LassoType.AQUATIC),
             ModRegistry::lassoProperties);
     public static final Holder.Reference<Item> DIAMOND_LASSO_ITEM = REGISTRIES.registerItem("diamond_lasso",
             (Item.Properties properties) -> new FabricLassoItem(properties, LassoType.DIAMOND),

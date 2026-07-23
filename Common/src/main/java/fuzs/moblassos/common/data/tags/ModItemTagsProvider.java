@@ -17,7 +17,7 @@ public class ModItemTagsProvider extends AbstractTagProvider<Item> {
     public void addTags(HolderLookup.Provider provider) {
         this.tag(ModRegistry.LASSOS_ITEM_TAG)
                 .add(ModRegistry.GOLDEN_LASSO_ITEM,
-                        ModRegistry.AQUA_LASSO_ITEM,
+                        ModRegistry.AQUATIC_LASSO_ITEM,
                         ModRegistry.DIAMOND_LASSO_ITEM,
                         ModRegistry.EMERALD_LASSO_ITEM,
                         ModRegistry.HOSTILE_LASSO_ITEM,

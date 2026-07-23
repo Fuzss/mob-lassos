@@ -42,7 +42,10 @@ public class ModRegistry {
             builder -> builder.persistent(Codec.LONG).networkSynchronized(ByteBufCodecs.VAR_LONG));
     public static final Holder.Reference<Item> GOLDEN_LASSO_ITEM = REGISTRIES.registerLazily(Registries.ITEM,
             "golden_lasso");
-    public static final Holder.Reference<Item> AQUA_LASSO_ITEM = REGISTRIES.registerLazily(Registries.ITEM,
+    /**
+     * TODO change id to {@code aquatic_lasso}
+     */
+    public static final Holder.Reference<Item> AQUATIC_LASSO_ITEM = REGISTRIES.registerLazily(Registries.ITEM,
             "aqua_lasso");
     public static final Holder.Reference<Item> DIAMOND_LASSO_ITEM = REGISTRIES.registerLazily(Registries.ITEM,
             "diamond_lasso");
@@ -71,6 +74,18 @@ public class ModRegistry {
     public static final TagFactory TAGS = TagFactory.make(MobLassos.MOD_ID);
     public static final TagKey<Item> LASSOS_ITEM_TAG = TAGS.registerItemTag("lassos");
     public static final TagKey<Item> LASSO_ENCHANTABLE_ITEM_TAG = TAGS.registerItemTag("enchantable/lasso");
+    public static final TagKey<EntityType<?>> CAPTURED_BY_GOLDEN_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
+            "captured_by_golden_lasso");
+    public static final TagKey<EntityType<?>> CAPTURED_BY_AQUATIC_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
+            "captured_by_aqua_lasso");
+    public static final TagKey<EntityType<?>> CAPTURED_BY_DIAMOND_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
+            "captured_by_diamond_lasso");
+    public static final TagKey<EntityType<?>> CAPTURED_BY_EMERALD_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
+            "captured_by_emerald_lasso");
+    public static final TagKey<EntityType<?>> CAPTURED_BY_HOSTILE_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
+            "captured_by_hostile_lasso");
+    public static final TagKey<EntityType<?>> NOT_CAPTURED_BY_CREATIVE_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
+            "not_captured_by_creative_lasso");
     public static final TagKey<EntityType<?>> BOSSES_ENTITY_TYPE_TAG = TagFactory.COMMON.registerEntityTypeTag("bosses");
 
     public static void bootstrap() {
