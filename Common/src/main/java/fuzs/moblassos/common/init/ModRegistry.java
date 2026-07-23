@@ -7,7 +7,6 @@ import fuzs.puzzleslib.common.api.attachment.v4.DataAttachmentRegistry;
 import fuzs.puzzleslib.common.api.attachment.v4.DataAttachmentType;
 import fuzs.puzzleslib.common.api.data.v2.AbstractDatapackRegistriesProvider;
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
-import fuzs.puzzleslib.common.api.init.v3.tags.TagFactory;
 import fuzs.puzzleslib.common.api.network.v4.PlayerSet;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -20,10 +19,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -71,32 +68,15 @@ public class ModRegistry {
             .networkSynchronized(StreamCodec.unit(Unit.INSTANCE), PlayerSet::nearEntity)
             .build(MobLassos.id("villager_contract"));
 
-    public static final TagFactory TAGS = TagFactory.make(MobLassos.MOD_ID);
-    public static final TagKey<Item> LASSOS_ITEM_TAG = TAGS.registerItemTag("lassos");
-    public static final TagKey<Item> LASSO_ENCHANTABLE_ITEM_TAG = TAGS.registerItemTag("enchantable/lasso");
-    public static final TagKey<EntityType<?>> CAPTURED_BY_GOLDEN_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
-            "captured_by_golden_lasso");
-    public static final TagKey<EntityType<?>> CAPTURED_BY_AQUATIC_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
-            "captured_by_aqua_lasso");
-    public static final TagKey<EntityType<?>> CAPTURED_BY_DIAMOND_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
-            "captured_by_diamond_lasso");
-    public static final TagKey<EntityType<?>> CAPTURED_BY_EMERALD_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
-            "captured_by_emerald_lasso");
-    public static final TagKey<EntityType<?>> CAPTURED_BY_HOSTILE_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
-            "captured_by_hostile_lasso");
-    public static final TagKey<EntityType<?>> NOT_CAPTURED_BY_CREATIVE_LASSO_ENTITY_TYPE_TAG = TAGS.registerEntityTypeTag(
-            "not_captured_by_creative_lasso");
-    public static final TagKey<EntityType<?>> BOSSES_ENTITY_TYPE_TAG = TagFactory.COMMON.registerEntityTypeTag("bosses");
-
     public static void bootstrap() {
-        // NO-OP
+        ModTags.bootstrap();
     }
 
     public static void bootstrapEnchantments(BootstrapContext<Enchantment> context) {
         HolderGetter<Item> itemLookup = context.lookup(Registries.ITEM);
         AbstractDatapackRegistriesProvider.registerEnchantment(context,
                 HOLDING_ENCHANTMENT,
-                Enchantment.enchantment(Enchantment.definition(itemLookup.getOrThrow(LASSO_ENCHANTABLE_ITEM_TAG),
+                Enchantment.enchantment(Enchantment.definition(itemLookup.getOrThrow(ModTags.LASSO_ENCHANTABLE_ITEM_TAG),
                         5,
                         3,
                         Enchantment.dynamicCost(5, 8),
