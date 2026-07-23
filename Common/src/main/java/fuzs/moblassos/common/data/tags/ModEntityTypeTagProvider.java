@@ -8,7 +8,6 @@ import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntityTypeIds;
 
 public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>> {
 
@@ -22,7 +21,7 @@ public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>>
             if (type.capturedBy != null) {
                 AbstractTagAppender<EntityType<?>> tag = this.tag(type.capturedBy);
                 if (type.capturedBy == ModTags.CAPTURED_BY_EMERALD_LASSO_ENTITY_TYPE_TAG) {
-                    tag.add(EntityTypeIds.VILLAGER, EntityTypeIds.WANDERING_TRADER);
+                    tag.add(EntityType.VILLAGER, EntityType.WANDERING_TRADER);
                 }
             }
 
