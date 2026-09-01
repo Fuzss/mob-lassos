@@ -6,11 +6,17 @@
     "26.1.x": "maintained",
     "26.2.x": "primary"
   },
-  "properties": {
-    "distributions.curseforge.id": "852670",
-    "distributions.curseforge.slug": "mob-lassos",
-    "distributions.github.slug": "mob-lassos",
-    "distributions.modrinth.id": "ftOBbnu8",
-    "distributions.modrinth.slug": "mob-lassos"
+  "distributions": {
+    "curseforge": {
+      "id": "852670",
+      "slug": "mob-lassos"
+    },
+    "github": {
+      "slug": "mob-lassos"
+    },
+    "modrinth": {
+      "id": "ftOBbnu8",
+      "slug": "mob-lassos"
+    }
   }
 }
