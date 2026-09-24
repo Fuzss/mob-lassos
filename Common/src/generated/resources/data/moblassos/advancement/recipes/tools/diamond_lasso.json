@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moblassos:diamond_lasso"
+        "recipes": "moblassos:diamond_lasso"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moblassos:contract"
+        "recipes": "moblassos:contract"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

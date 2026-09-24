@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moblassos:aqua_lasso"
+        "recipes": "moblassos:aqua_lasso"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

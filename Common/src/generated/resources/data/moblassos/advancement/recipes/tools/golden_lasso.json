@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moblassos:golden_lasso"
+        "recipes": "moblassos:golden_lasso"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

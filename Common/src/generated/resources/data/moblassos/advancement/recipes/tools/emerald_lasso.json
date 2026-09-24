@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moblassos:emerald_lasso"
+        "recipes": "moblassos:emerald_lasso"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
