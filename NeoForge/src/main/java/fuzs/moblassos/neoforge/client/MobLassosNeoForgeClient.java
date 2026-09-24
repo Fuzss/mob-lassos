@@ -6,7 +6,7 @@ import fuzs.moblassos.common.data.client.ModLanguageProvider;
 import fuzs.moblassos.common.data.client.ModModelProvider;
 import fuzs.moblassos.neoforge.data.client.ModSoundDefinitionsProvider;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
+import fuzs.puzzleslib.neoforge.api.data.v3.core.DataProviderBuilder;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.Mod;
 
@@ -15,7 +15,7 @@ public class MobLassosNeoForgeClient {
 
     public MobLassosNeoForgeClient() {
         ClientModConstructor.construct(MobLassos.MOD_ID, MobLassosClient::new);
-        DataProviderHelper.registerDataProviders(MobLassos.MOD_ID, ModLanguageProvider::new, ModModelProvider::new,
+        DataProviderBuilder.of(MobLassos.MOD_ID).addProvider(ModLanguageProvider::new, ModModelProvider::new,
                 ModSoundDefinitionsProvider::new
         );
     }

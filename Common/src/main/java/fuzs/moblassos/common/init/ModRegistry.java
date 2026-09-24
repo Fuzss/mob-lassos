@@ -5,12 +5,11 @@ import fuzs.moblassos.common.MobLassos;
 import fuzs.moblassos.common.world.item.ContractItem;
 import fuzs.puzzleslib.common.api.attachment.v4.DataAttachmentRegistry;
 import fuzs.puzzleslib.common.api.attachment.v4.DataAttachmentType;
-import fuzs.puzzleslib.common.api.data.v2.AbstractDatapackRegistriesProvider;
+import fuzs.puzzleslib.common.api.init.v3.registry.ContentRegistrationHelper;
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import fuzs.puzzleslib.common.api.network.v4.PlayerSet;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -28,8 +27,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 public class ModRegistry {
-    public static final RegistrySetBuilder REGISTRY_SET_BUILDER = new RegistrySetBuilder().add(Registries.ENCHANTMENT,
-            ModRegistry::bootstrapEnchantments);
     static final RegistryManager REGISTRIES = RegistryManager.from(MobLassos.MOD_ID);
     public static final Holder.Reference<DataComponentType<Long>> ENTITY_PICK_UP_TIME_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
             "entity_pick_up_time",
@@ -74,7 +71,7 @@ public class ModRegistry {
 
     public static void bootstrapEnchantments(BootstrapContext<Enchantment> context) {
         HolderGetter<Item> itemLookup = context.lookup(Registries.ITEM);
-        AbstractDatapackRegistriesProvider.registerEnchantment(context,
+        ContentRegistrationHelper.registerEnchantment(context,
                 HOLDING_ENCHANTMENT,
                 Enchantment.enchantment(Enchantment.definition(itemLookup.getOrThrow(ModTags.LASSO_ENCHANTABLE_ITEM_TAG),
                         5,
